@@ -66,6 +66,14 @@ class Invoice extends AbstractEntity
     protected $project;
 
     /**
+     * @var string
+     * @Accessor(getter="getRecurringInvoice", setter="setRecurringInvoice")
+     * @Groups({"get", "update", "post"})
+     * @Type("string")
+     */
+    protected $recurringInvoice;
+
+    /**
      * @var Project
      */
     protected $projectEntity;
@@ -239,7 +247,7 @@ class Invoice extends AbstractEntity
     /**
      * @var \DateTime
      * @Groups({"get","update","post"})
-     * @Type("DateTime<'Y-m-d\TH:i:sO'>")
+     * @Type("DateTime<'Y-m-d'>")
      */
     protected $writtenOffDate;
 
@@ -317,27 +325,15 @@ class Invoice extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return Project
-     */
-    public function getProject()
+    public function setRecurringInvoice($recurringInvoice)
     {
-        if (!$this->projectEntity) {
-            $this->projectEntity = $this->getApi()->getOneResourceByUrl($this->getProjectUrl());
-        }
-
-        return $this->projectEntity;
+        $this->recurringInvoice = $recurringInvoice;
+        return $this;
     }
 
-    /**
-     * @param Project $project
-     * @return $this
-     */
-    public function setProject(Project $project)
+    public function getRecurringInvoice()
     {
-        $this->projectEntity = $project;
-        $this->project = $project->getUrl();
-        return $this;
+        return $this->recurringInvoice;
     }
 
     /**
